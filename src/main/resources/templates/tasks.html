@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo Application</title>
+    <link rel="stylesheet" data-th-href="@{'/css/output.css'}">
+</head>
+<body class="bg-blue-200">
+
+<div class="container mx-auto p-6">
+    <!-- Header -->
+    <h1 class="text-3xl text-center font-semibold text-gray-800 mb-6">Todo App</h1>
+
+    <!-- Todo Form -->
+    <div class="bg-white grid grid-cols-4 gap-4 rounded-lg p-6">
+        <!-- Single Form with Add and Delete All -->
+        <form action="/" method="post" class="bg-white p-6 rounded-lg flex space-x-4 col-span-4" id="taskForm">
+            <!-- Task Input (3/4 width) -->
+            <input type="text" name="title" placeholder="Add Task" class="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id="taskInput" required>
+
+            <!-- Add Button (3/4 width) -->
+            <button type="submit" class="py-3 px-6 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Add
+            </button>
+
+            <!-- Delete All Button (1/4 width) -->
+            <button type="submit" name="action" value="deleteAll" class="py-3 px-6 bg-rose-500 text-white font-semibold rounded-md hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Delete All
+            </button>
+        </form>
+    </div>
+
+    <!-- Task List -->
+    <div class="mt-6 space-y-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <th:block th:each="task : ${tasks}">
+            <div class="flex justify-between p-4 bg-white rounded-lg shadow-md hover:bg-blue-50">
+                <span th:text="${task.title}" class="text-gray-800 text-lg font-semibold" th:classappend="${task.completed ? 'line-through text-gray-400' : ''}">Task Title</span>
+                <div class="grid grid-cols-1 gap-4 text-wrap">
+                    <a th:href="@{/{id}/toggle(id=${task.id})}" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-300">Mark as done</a>
+                    <a th:href="@{/{id}/delete(id=${task.id})}" class="px-4 py-2 bg-rose-500 text-white rounded-md hover:bg-rose-600">Delete</a>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+
+<script th:src="@{/js/toggle.js}"></script>
+
+</body>
+</html>
